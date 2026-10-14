@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<title>ナカメのなかま</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="中目黒にゆかりのある人が、友人をひとり連れて集まる月例会。毎月第2水曜19時から。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: 目黒川の流れのように、右肩下がりの水平帯を重ねる。中心モチーフは「輪」(重なる円)。 */
+:root {
+  --bg: #f2f5f8;          /* 昼の川面 */
+  --surface: #ffffff;
+  --fg: #14283c;          /* 夜の川 */
+  --muted: #55687a;
+  --line: #d3dce5;
+  --accent: #d9456f;      /* 桜 */
+  --accent-soft: #fbe3ea;
+  --lantern: #c98a1b;     /* 提灯 */
+  --font-display: "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1a29; --surface: #14263a; --fg: #eaf0f6; --muted: #9db0c2;
+    --line: #29405a; --accent: #f06b90; --accent-soft: #3a2233; --lantern: #e8b04a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1a29; --surface: #14263a; --fg: #eaf0f6; --muted: #9db0c2;
+  --line: #29405a; --accent: #f06b90; --accent-soft: #3a2233; --lantern: #e8b04a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.85;
+  -webkit-text-size-adjust: 100%;
+}
+img, svg { max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.wrap {
+  max-width: 1040px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 10px; }
+.brand { font-family: var(--font-display); font-weight: 800; text-decoration: none; letter-spacing: .04em; }
+.nav ul { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; font-size: 14px; }
+.nav a { text-decoration: none; color: var(--muted); }
+.nav a:hover { color: var(--accent); }
+@media (max-width: 560px) { .nav ul li:nth-child(n+3) { display: none; } }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; align-items: center; padding-block: 72px 64px; }
+.eyebrow { font-size: 13px; letter-spacing: .18em; color: var(--accent); font-weight: 700; margin: 0 0 18px; }
+h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(44px, 9vw, 92px); line-height: 1.08; letter-spacing: .02em; margin: 0 0 24px; text-wrap: balance; }
+h1 .no { color: var(--accent); }
+.lead { font-size: clamp(17px, 2.4vw, 20px); max-width: 30em; margin: 0 0 28px; text-wrap: pretty; }
+.rings { width: 100%; max-width: 420px; justify-self: center; }
+.rings circle { fill: none; stroke-width: 2; }
+.rings .r1 { stroke: var(--accent); fill: color-mix(in srgb, var(--accent) 10%, transparent); }
+.rings .r2 { stroke: var(--fg); fill: color-mix(in srgb, var(--fg) 6%, transparent); }
+.rings .r3 { stroke: var(--lantern); fill: color-mix(in srgb, var(--lantern) 12%, transparent); }
+.rings text { font-family: var(--font-display); font-weight: 700; font-size: 15px; fill: var(--fg); }
+.river { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 56px; opacity: .55; pointer-events: none; }
+.river path { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+@media (max-width: 760px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); padding-block: 48px 56px; } .rings { max-width: 300px; } }
+
+/* Next card */
+.next {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 20px 28px; align-items: center;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 20px 24px; max-width: 540px;
+}
+.next .date { font-family: var(--font-display); font-weight: 800; font-size: clamp(40px, 7vw, 56px); line-height: 1; font-variant-numeric: tabular-nums; }
+.next .date small { display: block; font-size: 14px; font-weight: 700; color: var(--accent); letter-spacing: .12em; margin-bottom: 6px; font-family: var(--font-body); }
+.next dl { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 14px; font-size: 14px; line-height: 1.7; }
+.next dt { color: var(--muted); }
+.next dd { margin: 0; }
+.badge { display: inline-block; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; padding: 1px 10px; border-radius: 99px; margin-left: 8px; vertical-align: middle; letter-spacing: .06em; }
+@media (max-width: 460px) { .next { grid-template-columns: minmax(0, 1fr); } }
+
+/* Sections */
+section { padding-block: 72px; }
+section + section { border-top: 1px solid var(--line); }
+h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(26px, 4.4vw, 38px); line-height: 1.35; margin: 0 0 12px; text-wrap: balance; }
+.sec-lead { color: var(--muted); max-width: 36em; margin: 0 0 36px; }
+
+/* Rule */
+.rule { background: var(--accent-soft); border-radius: 6px; padding: clamp(28px, 5vw, 56px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+.rule p.big { font-family: var(--font-display); font-weight: 700; font-size: clamp(22px, 3.6vw, 32px); line-height: 1.6; margin: 0; text-wrap: balance; }
+.rule p.big em { font-style: normal; color: var(--accent); }
+.rule p.note { margin: 0; color: var(--muted); font-size: 15px; }
+@media (max-width: 760px) { .rule { grid-template-columns: minmax(0, 1fr); } }
+
+/* Topics */
+.first-meta { display: flex; flex-wrap: wrap; gap: 8px 12px; margin: 0 0 32px; padding: 0; list-style: none; }
+.first-meta li { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+.topics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.topic { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 24px; min-width: 0; }
+.topic h3 { font-family: var(--font-display); font-size: 20px; line-height: 1.5; margin: 0 0 8px; }
+.topic p { margin: 0; color: var(--muted); font-size: 15px; }
+@media (max-width: 680px) { .topics { grid-template-columns: minmax(0, 1fr); } }
+
+.who { margin-top: 36px; }
+.who h3 { font-size: 14px; letter-spacing: .14em; color: var(--muted); margin: 0 0 12px; font-weight: 700; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.chips li { background: var(--bg); border: 1px solid var(--line); padding: 2px 14px; border-radius: 4px; font-size: 14px; }
+
+/* Calendar timeline (real dates) */
+.cal { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.cal li { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 8px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 18px 22px; align-items: baseline; }
+.cal time { font-family: var(--font-display); font-weight: 800; font-size: 28px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.cal time small { display: block; font-family: var(--font-body); font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: .1em; }
+.cal h3 { margin: 0 0 2px; font-size: 17px; }
+.cal p { margin: 0; color: var(--muted); font-size: 14px; }
+.cal li.past { opacity: .5; }
+@media (max-width: 520px) { .cal li { grid-template-columns: minmax(0, 1fr); } }
+
+/* Memo */
+.memo { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.memo div { border-top: 3px solid var(--lantern); padding-top: 14px; min-width: 0; }
+.memo h3 { font-size: 17px; margin: 0 0 6px; line-height: 1.5; }
+.memo p { margin: 0; color: var(--muted); font-size: 14px; }
+.small { font-size: 13px; color: var(--muted); margin-top: 28px; }
+@media (max-width: 760px) { .memo { grid-template-columns: minmax(0, 1fr); } }
+
+/* Join */
+.join { background: var(--fg); color: var(--bg); border-radius: 6px; padding: clamp(28px, 5vw, 56px); }
+.join h2 { color: var(--bg); }
+.join p { max-width: 34em; margin: 0 0 14px; }
+.steps { list-style: none; counter-reset: s; margin: 24px 0 0; padding: 0; display: grid; gap: 14px; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 14px; align-items: baseline; }
+.steps li::before { content: counter(s); font-family: var(--font-display); font-weight: 800; font-size: 26px; color: var(--lantern); text-align: center; }
+
+footer { border-top: 1px solid var(--line); padding-block: 36px; color: var(--muted); font-size: 13px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">ナカメのなかま</a>
+    <ul>
+      <li><a href="#rule">ルール</a></li>
+      <li><a href="#first">第1回</a></li>
+      <li><a href="#town">街のできごと</a></li>
+      <li><a href="#join">参加する</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">中目黒 ・ 毎月第2水曜 19:00〜</p>
+        <h1>ナカメの<span class="no">なかま</span></h1>
+        <p class="lead">中目黒にゆかりのある人が、友人をひとり連れて集まる月例会です。店を営む人、勤める人、住む人、通う人。友達の友達は、みんな友達。</p>
+        <div class="next" id="next-card">
+          <div class="date"><small>NEXT</small><span id="next-date">毎月第2水曜</span></div>
+          <dl>
+            <dt>時間</dt><dd>19:00〜</dd>
+            <dt>会場</dt><dd>第1回はスペース中目黒。以降の会場は参加者へご案内します</dd>
+            <dt>状況</dt><dd id="next-note">毎月、第2水曜日に開催します</dd>
+          </dl>
+        </div>
+      </div>
+      <svg class="rings" viewBox="0 0 400 360" role="img" aria-label="三つの円が重なり合う図。ゆかりの人、友人、その友人がつながって輪になる。">
+        <circle class="r1" cx="150" cy="140" r="104"/>
+        <circle class="r2" cx="250" cy="140" r="104"/>
+        <circle class="r3" cx="200" cy="224" r="104"/>
+        <text x="96" y="124" text-anchor="middle">ゆかりの人</text>
+        <text x="304" y="124" text-anchor="middle">友人</text>
+        <text x="200" y="290" text-anchor="middle">友人の友人</text>
+        <text x="200" y="176" text-anchor="middle" style="font-size:20px;fill:var(--accent)">輪</text>
+      </svg>
+    </div>
+    <svg class="river" viewBox="0 0 1200 56" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 18 C 150 4, 300 34, 450 20 S 750 4, 900 22 S 1100 36, 1200 14"/>
+      <path d="M0 34 C 150 20, 300 50, 450 36 S 750 20, 900 38 S 1100 52, 1200 30"/>
+      <path d="M0 48 C 150 36, 300 56, 450 50 S 750 38, 900 52 S 1100 56, 1200 46"/>
+    </svg>
+  </div>
+
+  <section id="rule">
+    <div class="wrap">
+      <h2>ルールは、ひとつだけ</h2>
+      <p class="sec-lead">会としての決めごとは、これだけです。</p>
+      <div class="rule">
+        <p class="big">次に来るときは、<em>中目黒にゆかりのある友人か知人を、ひとり</em>連れてくる。</p>
+        <p class="note">全員がひとりずつ連れてくれば、理屈の上では毎回、倍になります。大きな何かを決めて始めるのではなく、輪が広がる中で「中目黒でできること」を見つけていく集まりです。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="first">
+    <div class="wrap">
+      <h2>第1回のこと</h2>
+      <p class="sec-lead">2026年9月9日、スペース中目黒。自己紹介から始まり、食事とお酒を挟みながら、2時間以上話が続きました。</p>
+      <ul class="first-meta">
+        <li>2026.9.9 水</li>
+        <li>参加者 約15名</li>
+        <li>乾杯の一言は「本日の出会いに」</li>
+        <li>最後に全員で集合写真</li>
+      </ul>
+      <div class="topics">
+        <article class="topic">
+          <h3>中目黒の「コア」は何か</h3>
+          <p>品があって、気取りすぎない。昔からの商店街と、あとから来た人が同じ街にいる。百年後に何を残したいのかを、まず言葉にしてみる話が出ました。</p>
+        </article>
+        <article class="topic">
+          <h3>再開発と、街の個性</h3>
+          <p>街が変わるのは外からの力が大きく、住む人や店は対応してきた側だったという実感。どこも同じ街にならないために、何ができるかを話しました。</p>
+        </article>
+        <article class="topic">
+          <h3>みんなで歌える何か</h3>
+          <p>横浜出身の参加者が、地元の市歌が街への愛着の土台になっていると紹介。中目黒には「目黒銀座音頭」があります、という流れになりました。</p>
+        </article>
+        <article class="topic">
+          <h3>AI時代の、人の熱量</h3>
+          <p>AIを使うほど、AIではないものが大切に思えてくる。顔を合わせて話す価値を、この街の集まりでこそ確かめたいという声が上がりました。</p>
+        </article>
+      </div>
+      <div class="who">
+        <h3>集まった人の顔ぶれ(業種)</h3>
+        <ul class="chips">
+          <li>居酒屋</li><li>中華料理店</li><li>ガソリンスタンド</li><li>信用金庫</li><li>自動車ディーラー</li>
+          <li>メディア運営</li><li>PR・広報</li><li>IT開発</li><li>商店街・地域団体</li><li>写真家</li><li>マンション管理組合</li><li>落語会</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="town">
+    <div class="wrap">
+      <h2>街のできごと</h2>
+      <p class="sec-lead">第1回で参加者から案内があった、中目黒周辺の予定です。詳細は各主催の案内をご確認ください。</p>
+      <ul class="cal" id="cal">
+        <li data-date="2026-10-18">
+          <time datetime="2026-10-18">10.18<small>日</small></time>
+          <div><h3>坂タモリ ウォーキングと写真展</h3><p>坂をめぐるウォーキングイベント。あわせて、中目黒GTで坂の写真展があります。</p></div>
+        </li>
+        <li data-date="2026-12-13">
+          <time datetime="2026-12-13">12.13<small>日</small></time>
+          <div><h3>中目黒落語会 第155回</h3><p>1978年に始まった地域の落語会。年に数回、駅前の会場で開かれています。</p></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="memo">
+    <div class="wrap">
+      <h2>会で出た中目黒メモ</h2>
+      <p class="sec-lead">自己紹介の合間に出た、街の話です。</p>
+      <div class="memo">
+        <div><h3>目黒駅があるのは品川区</h3><p>目黒駅の住所は品川区上大崎。目黒区の中心は、実は中目黒のほうだったという話も出ました。</p></div>
+        <div><h3>東横線の特急は渋谷の次が自由が丘</h3><p>かつて中目黒に特急は止まりませんでした。今の「止まって当たり前」は、先輩たちが積み重ねた結果です。</p></div>
+        <div><h3>目黒銀座は、いちばん栄えた商店街</h3><p>目黒区でいちばん栄えていた商店街だったのが、名前の由来のひとつだと語られました。</p></div>
+      </div>
+      <p class="small">いずれも会の場で語られた内容です。正確な年代や経緯は、記録をたどって随時補っていきます。</p>
+    </div>
+  </section>
+
+  <section id="join">
+    <div class="wrap">
+      <div class="join">
+        <h2>参加するには</h2>
+        <p>ナカメのなかまは、紹介でつながる集まりです。すでに参加している方から声をかけてもらうか、中目黒にゆかりのある方が友人を誘ってお越しください。</p>
+        <ol class="steps">
+          <li>参加者から日時と会場の案内を受け取る</li>
+          <li>毎月第2水曜の19時に集まる</li>
+          <li>次回は、中目黒ゆかりの友人をひとり連れてくる</li>
+        </ol>
+        <!-- TODO: 問い合わせ先(LINE公式アカウント/オープンチャット/メールなど)が決まったらここに追加する -->
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>ナカメのなかま ・ 中目黒にまつわる人の輪</span>
+    <span>毎月第2水曜 19:00〜</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // 日本時間の「今日」を y, m, d で得る
+  function todayJST() {
+    var p = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tokyo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date()).split("-");
+    return { y: +p[0], m: +p[1], d: +p[2] };
+  }
+  function secondWednesday(y, m) {
+    var first = new Date(Date.UTC(y, m - 1, 1)).getUTCDay(); // 0=日
+    return 1 + ((3 - first + 7) % 7) + 7;
+  }
+  function stamp(y, m, d) { return y * 10000 + m * 100 + d; }
+  try {
+    var t = todayJST(), y = t.y, m = t.m, d = secondWednesday(y, m);
+    if (stamp(y, m, d) < stamp(t.y, t.m, t.d)) { m += 1; if (m > 12) { m = 1; y += 1; } d = secondWednesday(y, m); }
+    var diff = Math.round((Date.UTC(y, m - 1, d) - Date.UTC(t.y, t.m - 1, t.d)) / 86400000);
+    document.getElementById("next-date").textContent = m + "." + (d < 10 ? "0" + d : d) + " 水";
+    var note = document.getElementById("next-note");
+    if (diff === 0) { note.innerHTML = '本日開催です<span class="badge">TODAY</span>'; }
+    else { note.textContent = "あと" + diff + "日(" + y + "年" + m + "月" + d + "日)"; }
+    // 過ぎた街の予定は薄く表示する
+    var items = document.querySelectorAll("#cal li[data-date]");
+    for (var i = 0; i < items.length; i++) {
+      var q = items[i].getAttribute("data-date").split("-");
+      if (stamp(+q[0], +q[1], +q[2]) < stamp(t.y, t.m, t.d)) items[i].className = "past";
+    }
+  } catch (e) { /* 初期表示のまま */ }
+})();
+</script>
+</body>
+</html>
